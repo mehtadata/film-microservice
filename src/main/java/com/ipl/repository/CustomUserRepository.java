@@ -4,8 +4,8 @@ import com.ipl.model.User;
 
 public interface CustomUserRepository {
 	
-	final static String COLLECTION_NAME = "users";
-	
 	void addFilmsToUser(User user);
+	
+	void removeFilmsFromUser(User user);
 
 }

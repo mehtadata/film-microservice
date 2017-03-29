@@ -13,40 +13,54 @@ import com.ipl.model.Film;
 import com.ipl.model.User;
 import com.ipl.repository.UserRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class FilmRestController {
 
 	@Autowired
 	private UserRepository userRep;
 
-	@RequestMapping(method = RequestMethod.GET, path = "/getFilmsForUser")
-	public List<Film> getUsersFilms(@RequestParam(value = "user") String user) {
-		return userRep.findByUsername(user).films;
-	}
-	
-	@RequestMapping(method = RequestMethod.GET, path = "/user")
-	public User getUser(@RequestParam(value = "user") String user) {
+	@ApiOperation(value="Returns all information for given user.")
+	@RequestMapping(method = RequestMethod.GET, path = "/users")
+	public User getUser(@RequestParam("username") String user) {
 		return userRep.findByUsername(user);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path = "/getUsers")
-	public List<User> getUsers() {
+	@ApiOperation(value="Returns all users.")
+	@RequestMapping(method = RequestMethod.GET, path = "/users/")
+	public Iterable<User> getUsers() {
 		return userRep.findAll();
 	}
-
-	@RequestMapping(method = RequestMethod.POST, path = "/user")
-	public void addUser(@RequestParam String username) {
-		userRep.insert(new User(username));
+	
+	@ApiOperation(value="Returns the list of films associated with the given user.")
+	@RequestMapping(method = RequestMethod.GET, path = "/users/films/")
+	public List<Film> getUsersFilms(@RequestParam(value = "username") String user) {
+		return userRep.findByUsername(user).films;
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, path = "/user")
-	public void deleteUser(@RequestParam String username) {
-		userRep.deleteByUsername(username);
+	@ApiOperation(value="Add a new user.")
+	@RequestMapping(method = RequestMethod.POST, consumes="application/json", path = "/users")
+	public void addUser(@RequestBody User user) {
+		userRep.save(user);
+	}
+
+	@ApiOperation(value="Remove an existing user.")
+	@RequestMapping(method = RequestMethod.DELETE, consumes="application/json",  path = "/users")
+	public void deleteUser(@RequestBody User user) {
+		userRep.delete(user);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, consumes="application/json", path = "/addFilmsForUser")
+	@ApiOperation(value="Add new films to an existing users list.")
+	@RequestMapping(method = RequestMethod.PATCH, consumes="application/json", path = "/users/films")
 	public void addFilmsForUser(@RequestBody User user){
 		userRep.addFilmsToUser(user);
+	}
+	
+	@ApiOperation(value="Remove existing films from an existing users list.")
+	@RequestMapping(method = RequestMethod.PATCH, consumes="application/json", path = "/users/films/rm")
+	public void removeFilmsForUser(@RequestBody User user){
+		userRep.removeFilmsFromUser(user);
 	}
 
 }

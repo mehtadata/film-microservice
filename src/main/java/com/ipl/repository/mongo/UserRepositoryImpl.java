@@ -1,4 +1,4 @@
-package com.ipl.repository;
+package com.ipl.repository.mongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -7,9 +7,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.ipl.model.User;
-import com.mongodb.WriteResult;
+import com.ipl.repository.CustomUserRepository;
 
 public class UserRepositoryImpl implements CustomUserRepository {
+	
+	private final static String COLLECTION_NAME = "users";
 
 	@Autowired
 	private MongoOperations operations;
@@ -21,8 +23,14 @@ public class UserRepositoryImpl implements CustomUserRepository {
 		Update update = new Update()
 				.addToSet("films")
 				.each(user.films);
-		WriteResult wr = operations.updateFirst(query, update, CustomUserRepository.COLLECTION_NAME);
-		System.out.println(wr);
+		operations.updateFirst(query, update, COLLECTION_NAME);
+	}
+	
+	@Override
+	public void removeFilmsFromUser(User user) {
+		final Query query = new Query(Criteria.where("_id").is(user.username));
+		Update update = new Update().pullAll("films", user.films.toArray());
+		operations.updateFirst(query, update, COLLECTION_NAME);
 	}
 
 }

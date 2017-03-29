@@ -1,8 +1,8 @@
 server:
-  port: 8090
+  port: ${server.port}
 management:
   security: 
-    enabled: false
+    enabled: ${management.security.enabled}
 spring:
   profiles: 
     active: default
