@@ -5,6 +5,6 @@ management:
     enabled: ${management.security.enabled}
 spring:
   profiles: 
-    active: default
+    active: master
   application:
-    name: film
+    name: film-prod
