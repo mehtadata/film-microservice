@@ -42,7 +42,7 @@ public class UserTest {
 		assertThat(this.json.parseObject(content).username).isEqualTo("User123");
 	}
 	
-	@Test
+	/*@Test
 	public void serializesToJSONWithFilms() throws Exception {
 		final User user = new User("User111", 
 				Stream.of(
@@ -59,6 +59,6 @@ public class UserTest {
 		assertThat(this.json.write(user)).extractingJsonPathArrayValue("@.films").isNotEmpty();
 		
 		// TODO: test content of array
-	}
+	}*/
 
 }
