@@ -31,9 +31,9 @@ public class OmdbFilmRepositoryImpl implements FilmRepository {
 		
 		try {
 			String resultingJson = rt.getForObject(builder.build().encode().toUri(), String.class);
-			JSONObject jo = new JSONObject(resultingJson);
-			List<Film> films = new ObjectMapper().readValue(jo.getJSONArray("Search").toString(), new TypeReference<List<Film>>() {});
-			return films;
+			return new ObjectMapper().readValue(
+					new JSONObject(resultingJson).getJSONArray("Search").toString(), 
+					new TypeReference<List<Film>>() {});
 		} catch (RestClientException | JSONException | IOException e) {
 			throw new FilmNotFoundException(e);
 		}
@@ -48,7 +48,7 @@ public class OmdbFilmRepositoryImpl implements FilmRepository {
 		
 		try {
 			Film foundFilm = rt.getForObject(builder.build().encode().toUri(), Film.class);
-			if (foundFilm.getResponse() == null || foundFilm.getResponse().equals("False")){
+			if (foundFilm.getResponse() == null || "False".equals(foundFilm.getResponse())){
 				throw new FilmNotFoundException("No response for this id");
 			}
 			return foundFilm;

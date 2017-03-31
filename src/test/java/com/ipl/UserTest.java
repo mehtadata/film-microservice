@@ -42,12 +42,17 @@ public class UserTest {
 		assertThat(this.json.parseObject(content).username).isEqualTo("User123");
 	}
 	
-	/*@Test
+	@Test
 	public void serializesToJSONWithFilms() throws Exception {
+		Film test1 = new Film();
+		test1.setDirector("Joss Whedon");
+		test1.setTitle("Avengers Assemble");
+		Film test2 = new Film();
+		test2.setDirector("Joss Whedon");
+		test2.setTitle("Avengers: Age of Ultron");
 		final User user = new User("User111", 
 				Stream.of(
-						new Film("Avengers Assemble", "Joss Whedon"), 
-						new Film("Avengers: Age of Ultron", "Joss Whedon")
+						test1, test2
 						).collect(Collectors.toList()));
 	
 		assertThat(this.json.write(user)).isEqualToJson("/userwithfilm.json");
@@ -59,6 +64,6 @@ public class UserTest {
 		assertThat(this.json.write(user)).extractingJsonPathArrayValue("@.films").isNotEmpty();
 		
 		// TODO: test content of array
-	}*/
+	}
 
 }

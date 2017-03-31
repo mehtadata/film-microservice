@@ -18,5 +18,9 @@ public class FilmNotFoundException extends Exception {
 	public FilmNotFoundException(String msg){
 		super(msg);
 	}
+	
+	public FilmNotFoundException(String msg, Exception e){
+		super(msg, e);
+	}
 
 }

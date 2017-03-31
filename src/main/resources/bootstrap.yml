@@ -1,6 +1,6 @@
 spring:
   cloud:
     config:
-      #uri: http://localhost:8888 
-      uri: http://spring-config-container:8888
+      uri: http://localhost:8888
+      #uri: http://spring-config-container:8888
       fail-fast: true

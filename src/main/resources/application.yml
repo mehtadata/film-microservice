@@ -7,4 +7,7 @@ spring:
   profiles: 
     active: master
   application:
-    name: film-prod
+    name: film-dev
+  data:
+    mongodb:
+      uri: ${mongoURI} #mongodb://mongo1:27017,mongo2:27019,mongo3:27020/film
